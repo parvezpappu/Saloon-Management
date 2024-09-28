@@ -11,6 +11,10 @@ namespace Saloon_Management
 
         public RecordForm RecordFormBarber { get; set; }
 
+        public LoginForm LoginFormBarber { get; set; }
+
+
+
 
 
         public BarberForm()
@@ -21,10 +25,11 @@ namespace Saloon_Management
             this.ShowPackageList();
             this.ShowCartList();
 
+
         }
 
 
-        private void ShowPackageList(string hold = "SELECT * FROM PackageTable")
+        public void ShowPackageList(string hold = "SELECT * FROM PackageTable")
         {
             try
             {
@@ -57,7 +62,7 @@ namespace Saloon_Management
         private void btnInsert_Click(object sender, EventArgs e)
         {
             check = true;
-            InsertForm insertform = new InsertForm(check);
+            InsertForm insertform = new InsertForm(check, this);
             insertform.Show();
             check = true;
             this.Hide();
@@ -66,11 +71,40 @@ namespace Saloon_Management
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            check = false;
-            InsertForm insertform = new InsertForm(check);
-            insertform.Show();
-            this.Hide();
+            try
+            {
+                if (gdvBarberShow.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Please select a row to update before proceeding.", "Action Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get the selected row data
+                var selectedPackageId = gdvBarberShow.CurrentRow.Cells["Column1"].Value.ToString(); // Use actual column name or index
+                var selectedPackageName = gdvBarberShow.CurrentRow.Cells["Column2"].Value.ToString(); // Use actual column name or index
+                var selectedPrice = gdvBarberShow.CurrentRow.Cells["Column3"].Value.ToString(); // Use actual column name or index
+                var selectedDiscount = gdvBarberShow.CurrentRow.Cells["Column4"].Value.ToString(); // Use actual column name or index
+                var selectedDuration = gdvBarberShow.CurrentRow.Cells["Column5"].Value.ToString(); // Use actual column name or index
+
+                // Open the InsertForm with the data to update
+                InsertForm insertForm = new InsertForm(false, this)
+                {
+                    PackageIdText = selectedPackageId,
+                    PackageNameText = selectedPackageName,
+                    PriceText = selectedPrice,
+                    DiscountText = selectedDiscount,
+                    DurationText = selectedDuration
+                };
+
+                insertForm.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
@@ -223,49 +257,118 @@ namespace Saloon_Management
 
 
 
-
-
-
-
-
-
         private void btnRecord_Click(object sender, EventArgs e)
         {
-            RecordForm recordForm = new RecordForm();
-            recordForm.Show();
+
+            // Check if RecordForm is already open or not
+
+            if (LoginFormBarber.Id == "S-002")
+            {
+
+                if (RecordFormBarber == null || RecordFormBarber.IsDisposed)
+                {
+                    RecordFormBarber = new RecordForm(LoginFormBarber.Id);
+                }
+                var recordQuery = this.DataAccessBarber.ExecuteQuery("SELECT * FROM RecordBarber1");
+                RecordFormBarber.LoadData(recordQuery.Tables[0]);
+                RecordFormBarber.Show();
+            }
+
+            else if (LoginFormBarber.Id == "S-003")
+            {
+                if (RecordFormBarber == null || RecordFormBarber.IsDisposed)
+                {
+                    RecordFormBarber = new RecordForm(this.LoginFormBarber.Id);
+                }
+                var recordQuery2 = this.DataAccessBarber.ExecuteQuery("SELECT * FROM RecordBarber2");
+                RecordFormBarber.LoadData(recordQuery2.Tables[0]);
+                RecordFormBarber.Show();
+            }
 
         }
+
 
         private void btnConfirmCart_Click(object sender, EventArgs e)
         {
-            try
+            if (LoginFormBarber.Id == "S-002")
             {
-                string insertQuery = @"
-                 INSERT INTO RecordTable ([Package Id], [Package Name], Price, Discount, Duration)
+                try
+                {
+                    string insertQuery = @"
+                 INSERT INTO RecordBarber1 ([Package Id], [Package Name], Price, Discount, Duration)
                  SELECT [Package Id], [Package Name], Price, Discount, Duration
                  FROM CartTable";
 
-                var rowsAffected = DataAccessBarber.ExecuteDMLQuery(insertQuery);
+                    var rowsAffected = DataAccessBarber.ExecuteDMLQuery(insertQuery);
 
-                if (rowsAffected > 0)
-                {
-                    string deleteQuery = "DELETE FROM CartTable";
-                    var deleteRows = DataAccessBarber.ExecuteDMLQuery(deleteQuery);
+                    if (rowsAffected > 0)
+                    {
+                        string deleteQuery = "DELETE FROM CartTable";
+                        var deleteRows = DataAccessBarber.ExecuteDMLQuery(deleteQuery);
 
-                    MessageBox.Show($"{rowsAffected} package(s) have been successfully confirmed and moved to records.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"{rowsAffected} package(s) have been successfully confirmed and moved to records.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    this.ShowCartList();
+                        this.ShowCartList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No packages found in the cart to confirm.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
-                else
+
+                catch (Exception ex)
                 {
-                    MessageBox.Show("No packages found in the cart to confirm.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("An error occurred while confirming the packages: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception ex)
+
+
+
+            else if (LoginFormBarber.Id == "S-003")
             {
-                MessageBox.Show("An error occurred while confirming the packages: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                try
+                {
+
+                    string insertQuery = @"
+                 INSERT INTO RecordBarber2 ([Package Id], [Package Name], Price, Discount, Duration)
+                 SELECT [Package Id], [Package Name], Price, Discount, Duration
+                 FROM CartTable";
+
+                    var rowsAffected = DataAccessBarber.ExecuteDMLQuery(insertQuery);
+
+                    if (rowsAffected > 0)
+                    {
+                        string deleteQuery = "DELETE FROM CartTable";
+                        var deleteRows = DataAccessBarber.ExecuteDMLQuery(deleteQuery);
+
+                        MessageBox.Show($"{rowsAffected} package(s) have been successfully confirmed and moved to records.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        this.ShowCartList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No packages found in the cart to confirm.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while confirming the packages: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+
+
+
         }
 
+        private void gdvBarberShow_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+
+
     }
-}
+}///

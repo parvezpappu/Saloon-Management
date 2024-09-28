@@ -91,7 +91,7 @@
             this.gdvBarberShow.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gdvBarberShow.Size = new System.Drawing.Size(503, 280);
             this.gdvBarberShow.TabIndex = 0;
-            // 
+         
             // Column1
             // 
             this.Column1.DataPropertyName = "Package Id";

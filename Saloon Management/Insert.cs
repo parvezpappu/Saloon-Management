@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Windows.Forms;
 
 namespace Saloon_Management
@@ -7,11 +8,15 @@ namespace Saloon_Management
     {
         public DataAccess DataAccessInsert { get; set; }
         public bool IsInsertUpdate { get; set; }
-        public InsertForm(bool isInsert)
+        private Form callerForm;// extra add ehsan
+        public BarberForm BarberForm { get; set; }
+        public InsertForm(bool isInsert, Form caller)
         {
             InitializeComponent();
             this.DataAccessInsert = new DataAccess();
             this.IsInsertUpdate = isInsert;
+            this.callerForm = caller;
+            txtPidInsert.ReadOnly = !isInsert;
         }
 
         private void lblPIdInsert_Click(object sender, EventArgs e)
@@ -33,44 +38,31 @@ namespace Saloon_Management
                 return true;
         }
 
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("An Error Occured" + ex.Message);
-        //        return true;
-        //    }
-        //  }
-
-
 
         public void UpdateMethod()
         {
-            var updateSql = @"update PackageTable
-                    set [Package Name]= '" + this.txtNameInsert.Text + @"',
-                    Price = " + this.txtPriceInsert.Text + @",
-                    Discount = " + this.txtDiscountInsert.Text + @",
-                    Duration = '" + this.txtDurationInsert.Text + @"'
-                    where [Package Id] = '" + this.txtPidInsert.Text + "'; ";
+            var updateSql = @"UPDATE PackageTable
+            SET [Package Name] = '" + this.txtNameInsert.Text + @"',
+            Price = " + this.txtPriceInsert.Text + @",
+            Discount = " + this.txtDiscountInsert.Text + @",
+            Duration = '" + this.txtDurationInsert.Text + @"'
+            WHERE [Package Id] = '" + this.txtPidInsert.Text + "'; ";
             var updateCount = this.DataAccessInsert.ExecuteDMLQuery(updateSql);
 
             if (updateCount == 1)
             {
-                MessageBox.Show("Data Has Been Successfully Updated");
-                BarberForm b = new BarberForm();
-                b.Show();
-                //  b.Hide();
-                this.Hide();
+                MessageBox.Show("Data has been updated successfully.");
             }
             else
             {
-                MessageBox.Show("Unable to Insert Data! Please Re-Try ");
+                MessageBox.Show("Unable to update data! Please try again.");
             }
         }
 
 
-
         public void InsertMethod()
         {
-            var sqlInsert = "insert into PackageTable values('"
+            var sqlInsert = "INSERT INTO PackageTable ([Package Id], [Package Name], Price, Discount, Duration) VALUES('"
             + this.txtPidInsert.Text + "','"
             + this.txtNameInsert.Text + "',"
             + this.txtPriceInsert.Text + ","
@@ -79,9 +71,9 @@ namespace Saloon_Management
             var count = this.DataAccessInsert.ExecuteDMLQuery(sqlInsert);
 
             if (count == 1)
-                MessageBox.Show("Data has been added properly");
+                MessageBox.Show("Data has been added successfully.");
             else
-                MessageBox.Show("There was a problem while inserting data, please try again");
+                MessageBox.Show("There was a problem while inserting data, please try again.");
         }
 
 
@@ -91,35 +83,85 @@ namespace Saloon_Management
             {
                 if (!IsValidInsert())
                 {
-                    MessageBox.Show("Insert the correct text");
+                    MessageBox.Show("Please fill in all fields correctly.");
+                    return; // Stop further execution if validation fails
                 }
-                else
+
+                var insertQuery = "SELECT * FROM PackageTable WHERE [Package Id]='" + txtPidInsert.Text + "'";
+                var insertInfo = this.DataAccessInsert.ExecuteQueryTable(insertQuery);
+
+                if (insertInfo.Rows.Count == 1) // Package already exists
                 {
-                    var insertQuery = "select * from PackageTable where [Package Id]='" + txtPidInsert.Text + "'";
-                    var insertInfo = this.DataAccessInsert.ExecuteQueryTable(insertQuery);
-                    if (insertInfo.Rows.Count == 1)
+                    if (IsInsertUpdate == true)
                     {
-                        if (IsInsertUpdate == true)
-                        {
-                            MessageBox.Show("You Can't Insert Value, It's already in the list");
-                        }
-                        else
-                            UpdateMethod();
+                        MessageBox.Show("You can't insert this value, it's already in the list.");
+                        return; // Stop further execution if the package already exists
                     }
-
-                    else  // Row.Count = 0;
+                    else
                     {
-                        //insert
-
-                        InsertMethod();
-
+                        UpdateMethod(); // Update the package if it's an update operation
                     }
                 }
+                else // New package insertion
+                {
+                    InsertMethod(); // Insert the new package
+                }
+
+                // If the insert/update operation was successful, navigate back to the caller form
+                NavigateBackToCaller();
             }
             catch (Exception exc)
             {
-                MessageBox.Show("An error has occured: " + exc.Message);
+                MessageBox.Show("An error has occurred: " + exc.Message);
             }
+        }
+
+        private void NavigateBackToCaller()
+        {
+            if (callerForm is AdminForm)
+            {
+                AdminForm adminForm = (AdminForm)callerForm;
+                adminForm.LoadPackageTable(); // Refresh data in AdminForm
+                adminForm.Show(); // Show AdminForm
+            }
+            else if (callerForm is BarberForm)
+            {
+                BarberForm barberForm = (BarberForm)callerForm;
+                barberForm.ShowPackageList(); // Refresh data in BarberForm
+                barberForm.Show(); // Show BarberForm
+            }
+
+            this.Close(); // Close InsertForm after navigation
+        }
+
+        public string PackageIdText
+        {
+            get { return txtPidInsert.Text; }
+            set { txtPidInsert.Text = value; }
+        }
+
+        public string PackageNameText
+        {
+            get { return txtNameInsert.Text; }
+            set { txtNameInsert.Text = value; }
+        }
+
+        public string PriceText
+        {
+            get { return txtPriceInsert.Text; }
+            set { txtPriceInsert.Text = value; }
+        }
+
+        public string DiscountText
+        {
+            get { return txtDiscountInsert.Text; }
+            set { txtDiscountInsert.Text = value; }
+        }
+
+        public string DurationText
+        {
+            get { return txtDurationInsert.Text; }
+            set { txtDurationInsert.Text = value; }
         }
 
 
@@ -136,7 +178,20 @@ namespace Saloon_Management
             MessageBox.Show("All fields have been cleared.");
         }
 
+        private void PanelInsert_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void InsertForm_Load(object sender, EventArgs e)
+        {
+            SetReadOnlyMode();
+        }
+
+        private void SetReadOnlyMode()
+        {
+            txtPidInsert.ReadOnly = !IsInsertUpdate; // Make ReadOnly if it is update mode
+        }
 
     }
-}
-
+}/////////insert

@@ -124,6 +124,7 @@
             this.PanelInsert.Name = "PanelInsert";
             this.PanelInsert.Size = new System.Drawing.Size(452, 388);
             this.PanelInsert.TabIndex = 5;
+            this.PanelInsert.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelInsert_Paint);
             // 
             // label6
             // 

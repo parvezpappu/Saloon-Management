@@ -13,8 +13,9 @@ namespace Saloon_Management
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // Application.Run(new LoginForm());
-            Application.Run(new BarberForm());
+            Application.Run(new LoginForm());
+            //Application.Run(new BarberForm());
+            //  Application.Run(new AdminForm());
         }
     }
 }

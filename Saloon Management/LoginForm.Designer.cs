@@ -73,6 +73,7 @@
             this.lgnPanel.Name = "lgnPanel";
             this.lgnPanel.Size = new System.Drawing.Size(358, 383);
             this.lgnPanel.TabIndex = 2;
+            this.lgnPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.lgnPanel_Paint);
             // 
             // label1
             // 

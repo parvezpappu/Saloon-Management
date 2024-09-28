@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.gdvRecordView = new System.Windows.Forms.DataGridView();
+            this.btnClearHistory = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,12 +51,32 @@
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5});
-            this.gdvRecordView.Location = new System.Drawing.Point(81, 33);
+            this.gdvRecordView.Location = new System.Drawing.Point(120, 29);
             this.gdvRecordView.Name = "gdvRecordView";
             this.gdvRecordView.ReadOnly = true;
             this.gdvRecordView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gdvRecordView.Size = new System.Drawing.Size(520, 296);
             this.gdvRecordView.TabIndex = 1;
+            // 
+            // btnClearHistory
+            // 
+            this.btnClearHistory.Location = new System.Drawing.Point(181, 350);
+            this.btnClearHistory.Name = "btnClearHistory";
+            this.btnClearHistory.Size = new System.Drawing.Size(100, 35);
+            this.btnClearHistory.TabIndex = 15;
+            this.btnClearHistory.Text = "Clear History";
+            this.btnClearHistory.UseVisualStyleBackColor = true;
+            this.btnClearHistory.Click += new System.EventHandler(this.btnClearHistory_Click);
+            // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(336, 350);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(100, 35);
+            this.btnBack.TabIndex = 16;
+            this.btnBack.Text = "Back ";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -95,6 +118,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(736, 481);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.btnClearHistory);
             this.Controls.Add(this.gdvRecordView);
             this.Name = "RecordForm";
             this.Text = "Record";
@@ -106,6 +131,9 @@
         #endregion
 
         private System.Windows.Forms.DataGridView gdvRecordView;
+        private System.Windows.Forms.Button btnClearHistory;
+        private System.Windows.Forms.Button btnBack;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;

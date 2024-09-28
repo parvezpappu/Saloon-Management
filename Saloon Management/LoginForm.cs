@@ -7,6 +7,7 @@ namespace Saloon_Management
     {
 
         public DataAccess DbConnection { get; set; }
+        public string Id;
 
         public LoginForm()
         {
@@ -39,6 +40,7 @@ namespace Saloon_Management
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            this.Id = this.txtUser.Text;
             var query = "SELECT * FROM LoginTable WHERE userId='" + this.txtUser.Text + "' AND password='" + this.txtPass.Text + "'";
             var sendQuery = DbConnection.ExecuteQuery(query);
             var validation = EmptyLogin();
@@ -50,12 +52,17 @@ namespace Saloon_Management
             {
                 MessageBox.Show("Login successful!");
                 string role = DbConnection.Dataset.Tables[0].Rows[0]["role"].ToString();
+
                 if (role == "Barber")
                 {
-                    BarberForm barberForm = new BarberForm();
+                    BarberForm barberForm = new BarberForm // ki korci nijeo  jani. na. but kaj korce
+
+                    { LoginFormBarber = this };
+
                     this.Hide();
                     barberForm.Show();
                 }
+
                 else if (role == "Admin")
                 {
                     AdminForm adminForm = new AdminForm();
@@ -74,6 +81,13 @@ namespace Saloon_Management
         {
 
         }
+
+        private void lgnPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
     }
 
 }
