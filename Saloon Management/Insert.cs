@@ -155,7 +155,7 @@ namespace Saloon_Management
                 barberForm.Show(); // Show BarberForm
             }
 
-            this.Close(); // Close InsertForm after navigation
+            this.Close();
         }
 
 
@@ -180,6 +180,11 @@ namespace Saloon_Management
         private void InsertForm_Load_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnInsertBack_Click(object sender, EventArgs e)
+        {
+            this.NavigateBackToCaller();
         }
     }
 }/////////insert

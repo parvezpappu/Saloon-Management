@@ -47,6 +47,7 @@
             this.txtDiscountInsert = new System.Windows.Forms.TextBox();
             this.txtPriceInsert = new System.Windows.Forms.TextBox();
             this.txtPidInsert = new System.Windows.Forms.TextBox();
+            this.btnInsertBack = new System.Windows.Forms.Button();
             this.PanelInsert.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,6 +110,7 @@
             // PanelInsert
             // 
             this.PanelInsert.BackColor = System.Drawing.Color.Transparent;
+            this.PanelInsert.Controls.Add(this.btnInsertBack);
             this.PanelInsert.Controls.Add(this.label6);
             this.PanelInsert.Controls.Add(this.label5);
             this.PanelInsert.Controls.Add(this.label1);
@@ -193,7 +195,7 @@
             this.btnEraseInsert.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEraseInsert.BackgroundImage")));
             this.btnEraseInsert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEraseInsert.ForeColor = System.Drawing.Color.White;
-            this.btnEraseInsert.Location = new System.Drawing.Point(230, 318);
+            this.btnEraseInsert.Location = new System.Drawing.Point(186, 318);
             this.btnEraseInsert.Name = "btnEraseInsert";
             this.btnEraseInsert.Size = new System.Drawing.Size(100, 35);
             this.btnEraseInsert.TabIndex = 11;
@@ -207,7 +209,7 @@
             this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(89, 318);
+            this.btnSave.Location = new System.Drawing.Point(53, 318);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(104, 35);
             this.btnSave.TabIndex = 10;
@@ -250,6 +252,20 @@
             this.txtPidInsert.Size = new System.Drawing.Size(144, 20);
             this.txtPidInsert.TabIndex = 5;
             // 
+            // btnInsertBack
+            // 
+            this.btnInsertBack.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnInsertBack.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnInsertBack.BackgroundImage")));
+            this.btnInsertBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInsertBack.ForeColor = System.Drawing.Color.White;
+            this.btnInsertBack.Location = new System.Drawing.Point(307, 318);
+            this.btnInsertBack.Name = "btnInsertBack";
+            this.btnInsertBack.Size = new System.Drawing.Size(100, 35);
+            this.btnInsertBack.TabIndex = 17;
+            this.btnInsertBack.Text = "Back";
+            this.btnInsertBack.UseVisualStyleBackColor = false;
+            this.btnInsertBack.Click += new System.EventHandler(this.btnInsertBack_Click);
+            // 
             // InsertForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,5 +302,6 @@
         private System.Windows.Forms.Label lblFormatName;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnInsertBack;
     }
 }

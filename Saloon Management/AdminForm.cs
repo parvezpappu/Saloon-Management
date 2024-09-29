@@ -12,10 +12,9 @@ namespace Saloon_Management
         {
             InitializeComponent();
             this.dataAccess = new DataAccess();
-            //LoadPackageTable(); // Load PackageTable by default on form load
+
         }
 
-        // Load data into the DataGridView based on selected radio button
         private void LoadData(string tableName)
         {
             string query = $"SELECT * FROM {tableName}";
@@ -24,7 +23,7 @@ namespace Saloon_Management
                 gdvAdminView.AutoGenerateColumns = false;
                 var dataTable = dataAccess.ExecuteQuery(query).Tables[0];
                 gdvAdminView.DataSource = dataTable;
-                ConfigureDataGridViewColumns(tableName); // Adjust columns for the selected table
+                ConfigureDataGridViewColumns(tableName);
             }
             catch (Exception ex)
             {
@@ -32,10 +31,8 @@ namespace Saloon_Management
             }
         }
 
-        // Configure DataGridView columns based on the selected table
         private void ConfigureDataGridViewColumns(string tableName)
         {
-            // Configure columns for PackageTable
             if (tableName == "PackageTable")
             {
                 if (gdvAdminView.Columns["Package Id"] != null)
@@ -95,7 +92,6 @@ namespace Saloon_Management
             }
         }
 
-        // Event handler for RecordBarber1 radio button
         private void rdBtnTable1_CheckedChanged(object sender, EventArgs e)
         {
             if (rdBtnTable1.Checked)
@@ -104,7 +100,6 @@ namespace Saloon_Management
             }
         }
 
-        // Event handler for RecordBarber2 radio button
         private void rdBtnTable2_CheckedChanged(object sender, EventArgs e)
         {
             if (rdBtnTable2.Checked)
@@ -113,9 +108,6 @@ namespace Saloon_Management
             }
         }
 
-        // Event handler for Insert button
-
-        // Load PackageTable by default
         public void LoadPackageTable()
         {
             LoadData("PackageTable");
@@ -151,10 +143,8 @@ namespace Saloon_Management
                     return;
                 }
 
-                // Get the selected row from the DataGridView
                 var selectedRow = gdvAdminView.CurrentRow;
 
-                // Get the table name based on the selected radio button
                 string tableName = GetCurrentTableName();
 
                 if (string.IsNullOrEmpty(tableName))
@@ -163,11 +153,9 @@ namespace Saloon_Management
                     return;
                 }
 
-                // Get the PackageId and PackageName from the selected row
                 string packageId = gdvAdminView.CurrentRow.Cells[0].Value.ToString(); // Use actual column name for PackageId
                 string packageName = gdvAdminView.CurrentRow.Cells[1].Value.ToString(); // Use actual column name for PackageName
 
-                // Confirm the deletion
                 var confirmation = MessageBox.Show($"Are you sure you want to delete the package '{packageName}'?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (confirmation == DialogResult.No)
@@ -178,18 +166,17 @@ namespace Saloon_Management
                 // Delete query
                 string deleteQuery = $"DELETE FROM {tableName} WHERE [Package Id] = '{packageId}'";
 
-                // Execute the delete query
+
                 var rowsAffected = dataAccess.ExecuteDMLQuery(deleteQuery);
 
                 if (rowsAffected == 1)
                 {
-                    // If deletion is successful, show success message
+
                     MessageBox.Show($"Package '{packageName}' has been successfully deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Remove the deleted row from the DataGridView
                     gdvAdminView.Rows.Remove(selectedRow);
 
-                    // Refresh the DataGridView to reflect changes
+
                     LoadData(tableName);
                 }
                 else
@@ -213,14 +200,13 @@ namespace Saloon_Management
                     return;
                 }
 
-                // Get the selected row data
                 var selectedPackageId = gdvAdminView.CurrentRow.Cells[0].Value.ToString();
                 var selectedPackageName = gdvAdminView.CurrentRow.Cells[1].Value.ToString();
                 var selectedPackagePrice = gdvAdminView.CurrentRow.Cells[2].Value.ToString();
                 var selectedPackageDiscount = gdvAdminView.CurrentRow.Cells[3].Value.ToString();
                 var selectedPackageDuration = gdvAdminView.CurrentRow.Cells[4].Value.ToString();
 
-                // Open the InsertForm with the data to update
+
                 InsertForm insertForm = new InsertForm(false, this)
                 {
                     PackageIdText = selectedPackageId,
