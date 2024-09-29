@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InsertForm));
             this.lblPIdInsert = new System.Windows.Forms.Label();
             this.lblpNameInsert = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,18 +53,19 @@
             // lblPIdInsert
             // 
             this.lblPIdInsert.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPIdInsert.ForeColor = System.Drawing.SystemColors.Control;
             this.lblPIdInsert.Location = new System.Drawing.Point(34, 55);
             this.lblPIdInsert.Name = "lblPIdInsert";
             this.lblPIdInsert.Size = new System.Drawing.Size(123, 41);
             this.lblPIdInsert.TabIndex = 0;
             this.lblPIdInsert.Text = "Package Id";
             this.lblPIdInsert.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPIdInsert.Click += new System.EventHandler(this.lblPIdInsert_Click);
             // 
             // lblpNameInsert
             // 
             this.lblpNameInsert.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblpNameInsert.Location = new System.Drawing.Point(52, 111);
+            this.lblpNameInsert.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblpNameInsert.Location = new System.Drawing.Point(34, 113);
             this.lblpNameInsert.Name = "lblpNameInsert";
             this.lblpNameInsert.Size = new System.Drawing.Size(119, 42);
             this.lblpNameInsert.TabIndex = 1;
@@ -73,8 +75,9 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label2.Location = new System.Drawing.Point(16, 155);
+            this.label2.Location = new System.Drawing.Point(34, 165);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(123, 41);
             this.label2.TabIndex = 2;
@@ -84,6 +87,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label3.Location = new System.Drawing.Point(34, 206);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(123, 41);
@@ -94,6 +98,7 @@
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label4.Location = new System.Drawing.Point(34, 258);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(123, 41);
@@ -103,6 +108,7 @@
             // 
             // PanelInsert
             // 
+            this.PanelInsert.BackColor = System.Drawing.Color.Transparent;
             this.PanelInsert.Controls.Add(this.label6);
             this.PanelInsert.Controls.Add(this.label5);
             this.PanelInsert.Controls.Add(this.label1);
@@ -129,7 +135,7 @@
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Red;
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(336, 269);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(113, 20);
@@ -140,7 +146,7 @@
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(336, 227);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(71, 20);
@@ -151,7 +157,7 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(336, 176);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 20);
@@ -162,7 +168,7 @@
             // lblFormatName
             // 
             this.lblFormatName.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFormatName.ForeColor = System.Drawing.Color.Red;
+            this.lblFormatName.ForeColor = System.Drawing.Color.White;
             this.lblFormatName.Location = new System.Drawing.Point(336, 123);
             this.lblFormatName.Name = "lblFormatName";
             this.lblFormatName.Size = new System.Drawing.Size(71, 20);
@@ -173,7 +179,7 @@
             // lblFormatID
             // 
             this.lblFormatID.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFormatID.ForeColor = System.Drawing.Color.Red;
+            this.lblFormatID.ForeColor = System.Drawing.Color.White;
             this.lblFormatID.Location = new System.Drawing.Point(336, 66);
             this.lblFormatID.Name = "lblFormatID";
             this.lblFormatID.Size = new System.Drawing.Size(71, 20);
@@ -183,22 +189,30 @@
             // 
             // btnEraseInsert
             // 
+            this.btnEraseInsert.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnEraseInsert.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEraseInsert.BackgroundImage")));
+            this.btnEraseInsert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEraseInsert.ForeColor = System.Drawing.Color.White;
             this.btnEraseInsert.Location = new System.Drawing.Point(230, 318);
             this.btnEraseInsert.Name = "btnEraseInsert";
             this.btnEraseInsert.Size = new System.Drawing.Size(100, 35);
             this.btnEraseInsert.TabIndex = 11;
             this.btnEraseInsert.Text = "Erase";
-            this.btnEraseInsert.UseVisualStyleBackColor = true;
+            this.btnEraseInsert.UseVisualStyleBackColor = false;
             this.btnEraseInsert.Click += new System.EventHandler(this.btnEraseInsert_Click);
             // 
             // btnSave
             // 
+            this.btnSave.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.ForeColor = System.Drawing.Color.White;
             this.btnSave.Location = new System.Drawing.Point(89, 318);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(100, 35);
+            this.btnSave.Size = new System.Drawing.Size(104, 35);
             this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // txtDurationInsert
@@ -240,10 +254,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.PanelInsert);
             this.Name = "InsertForm";
             this.Text = "Insert";
+            this.Load += new System.EventHandler(this.InsertForm_Load_1);
             this.PanelInsert.ResumeLayout(false);
             this.PanelInsert.PerformLayout();
             this.ResumeLayout(false);

@@ -12,7 +12,7 @@ namespace Saloon_Management
         {
             InitializeComponent();
             this.dataAccess = new DataAccess();
-            LoadPackageTable(); // Load PackageTable by default on form load
+            //LoadPackageTable(); // Load PackageTable by default on form load
         }
 
         // Load data into the DataGridView based on selected radio button
@@ -85,71 +85,8 @@ namespace Saloon_Management
             }
         }
 
-        // Method to insert a new package into the PackageTable
-        //private void InsertPackage(string packageName, decimal price, int discount, string duration)
-        //{
-        //    string query = $"INSERT INTO PackageTable ([Package Name], Price, Discount, Duration) VALUES ('{packageName}', {price}, {discount}, '{duration}')";
-        //    try
-        //    {
-        //        dataAccess.ExecuteDMLQuery(query);
-        //        LoadPackageTable(); // Reload the data to reflect changes
-        //        MessageBox.Show("Package inserted successfully.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("An error occurred while inserting the package: " + ex.Message);
-        //    }
-        //}
 
-        //// Method to update an existing package in the PackageTable
-        //private void UpdatePackage(string packageId, string packageName, decimal price, int discount, string duration)
-        //{
-        //    string query = $"UPDATE PackageTable SET [Package Name]='{packageName}', Price={price}, Discount={discount}, Duration='{duration}' WHERE [Package Id]='{packageId}'";
-        //    try
-        //    {
-        //        dataAccess.ExecuteDMLQuery(query);
-        //        LoadPackageTable(); // Reload the data to reflect changes
-        //        MessageBox.Show("Package updated successfully.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("An error occurred while updating the package: " + ex.Message);
-        //    }
-        //}
-
-        //// Method to delete a package from the PackageTable
-        //private void DeletePackage(string packageId)
-        //{
-        //    string query = $"DELETE FROM PackageTable WHERE [Package Id]='{packageId}'";
-        //    try
-        //    {
-        //        dataAccess.ExecuteDMLQuery(query);
-        //        LoadPackageTable(); // Reload the data to reflect changes
-        //        MessageBox.Show("Package deleted successfully.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("An error occurred while deleting the package: " + ex.Message);
-        //    }
-        //}
-
-        //// Method to clear records from the specified record table
-        //private void ClearRecord(string tableName)
-        //{
-        //    string query = $"DELETE FROM {tableName}";
-        //    try
-        //    {
-        //        dataAccess.ExecuteDMLQuery(query);
-        //        LoadData(tableName); // Reload the data to reflect changes
-        //        MessageBox.Show($"{tableName} records cleared successfully.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"An error occurred while clearing records from {tableName}: " + ex.Message);
-        //    }
-        //}
-
-        // Event handler for PackageTable radio button
+        //  
         private void rdBtnPackageTable_CheckedChanged(object sender, EventArgs e)
         {
             if (rdBtnPackageTable.Checked)
@@ -183,14 +120,6 @@ namespace Saloon_Management
         {
             LoadData("PackageTable");
         }
-
-        private void btnInsert_Click(object sender, EventArgs e)
-        {
-            InsertForm insertForm = new InsertForm(true, this);
-            insertForm.Show();
-            this.Hide();
-        }
-
 
 
         private string GetCurrentTableName()
@@ -309,5 +238,25 @@ namespace Saloon_Management
             }
         }
 
+        private void btnBackLogin_Click(object sender, EventArgs e)
+        {
+            LoginForm lf = new LoginForm();
+            lf.Show();
+            this.Hide();
+
+        }
+
+        private void btnInsertBarber_Click(object sender, EventArgs e)
+        {
+            InsertForm inform = new InsertForm(false, this);
+            inform.Show();
+            this.Hide();
+
+        }
+
+        private void AdminForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

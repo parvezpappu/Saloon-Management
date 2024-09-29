@@ -9,16 +9,17 @@ namespace Saloon_Management
         public DataAccess AccessRecord { get; set; }
         public LoginForm LoginFormRecord { get; set; }
         public string UserId { get; set; }
+        public BarberForm BarberForm { get; set; }
+        // referrence
 
-
-        public RecordForm(string userId)
+        public RecordForm(string userId, BarberForm barberFormInstance)
         {
             InitializeComponent();
             this.AccessRecord = new DataAccess();
             this.UserId = userId;
-            MessageBox.Show("RecordForm initialized with UserId: " + userId); // For debugging
+            this.BarberForm = barberFormInstance; // Store the reference to the original BarberForm
+            MessageBox.Show("Record of the user : " + userId); // For debugging
             this.LoadRecordData();
-
         }
 
 
@@ -125,9 +126,20 @@ namespace Saloon_Management
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            BarberForm barberForm = new BarberForm();
-            barberForm.Show();
-            this.Hide();
+            if (this.BarberForm != null)
+            {
+                this.BarberForm.Show(); // Show the existing BarberForm instance
+                this.Hide(); // Hide the RecordForm
+            }
+            else
+            {
+                MessageBox.Show("BarberForm reference is not set.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RecordForm_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 

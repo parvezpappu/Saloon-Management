@@ -8,26 +8,39 @@ namespace Saloon_Management
         // Instance of DataAccess class
         public DataAccess DataAccessBarber { get; set; }
         public InsertForm InsertFormBarber { get; set; }
-
         public RecordForm RecordFormBarber { get; set; }
-
         public LoginForm LoginFormBarber { get; set; }
 
-
-
-
-
+        private bool isSelecting = false;
         public BarberForm()
         {
             InitializeComponent();
+
             this.DataAccessBarber = new DataAccess();
-            this.Click += new EventHandler(Form_Click);
             this.ShowPackageList();
             this.ShowCartList();
+            this.gdvBarberShow.SelectionChanged += new EventHandler(GdvBarberShow_SelectionChanged);
 
+            this.gdvCartView.SelectionChanged += new EventHandler(GdvCartView_SelectionChanged);
 
         }
 
+        private void GdvBarberShow_SelectionChanged(object sender, EventArgs e)
+        {
+            if (gdvBarberShow.SelectedRows.Count > 0)
+            {
+                gdvCartView.ClearSelection();
+            }
+        }
+
+        private void GdvCartView_SelectionChanged(object sender, EventArgs e)
+        {
+
+            if (gdvCartView.SelectedRows.Count > 0)
+            {
+                gdvBarberShow.ClearSelection();
+            }
+        }
 
         public void ShowPackageList(string hold = "SELECT * FROM PackageTable")
         {
@@ -40,71 +53,60 @@ namespace Saloon_Management
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while loading data: " + ex.Message);
+                MessageBox.Show("Maybe there is an incorrect syntax, non-existent table, or column name)" + ex.Message);
             }
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            LoginForm loginForm = new LoginForm();
-            // this.Hide();
-            loginForm.Show();
-            // Application.Exit();
-            //this.Close();
-        }
-        private void BarberForm_Load(object sender, EventArgs e)
-        {
-            this.gdvBarberShow.ClearSelection();
-        }
-
-        public bool check = false;
-
-        private void btnInsert_Click(object sender, EventArgs e)
-        {
-            check = true;
-            InsertForm insertform = new InsertForm(check, this);
-            insertform.Show();
-            check = true;
-            this.Hide();
-
-        }
-
-        private void btnUpdate_Click(object sender, EventArgs e)
+        public void ShowCartList(string query = "SELECT * FROM CartTable")
         {
             try
             {
-                if (gdvBarberShow.SelectedRows.Count == 0)
-                {
-                    MessageBox.Show("Please select a row to update before proceeding.", "Action Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Get the selected row data
-                var selectedPackageId = gdvBarberShow.CurrentRow.Cells["Column1"].Value.ToString(); // Use actual column name or index
-                var selectedPackageName = gdvBarberShow.CurrentRow.Cells["Column2"].Value.ToString(); // Use actual column name or index
-                var selectedPrice = gdvBarberShow.CurrentRow.Cells["Column3"].Value.ToString(); // Use actual column name or index
-                var selectedDiscount = gdvBarberShow.CurrentRow.Cells["Column4"].Value.ToString(); // Use actual column name or index
-                var selectedDuration = gdvBarberShow.CurrentRow.Cells["Column5"].Value.ToString(); // Use actual column name or index
-
-                // Open the InsertForm with the data to update
-                InsertForm insertForm = new InsertForm(false, this)
-                {
-                    PackageIdText = selectedPackageId,
-                    PackageNameText = selectedPackageName,
-                    PriceText = selectedPrice,
-                    DiscountText = selectedDiscount,
-                    DurationText = selectedDuration
-                };
-
-                insertForm.Show();
-                this.Hide();
+                var cartQuery = this.DataAccessBarber.ExecuteQuery(query);
+                this.gdvCartView.AutoGenerateColumns = false;
+                this.gdvCartView.DataSource = cartQuery.Tables[0];
+                this.gdvCartView.ClearSelection();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An error occurred while loading the cart data: " + ex.Message);
             }
         }
 
+
+        public bool check = false;
+
+
+
+        bool clearselect = false;
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+
+            if (gdvBarberShow.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a row to update before proceeding.", "Action Required", MessageBoxButtons.OK);
+                return;
+            }
+
+
+            var selectedPackageId = gdvBarberShow.CurrentRow.Cells[0].Value.ToString();     // specifiq row er coloumn  value store kore rakhteci for indiviutal
+            var selectedPackageName = gdvBarberShow.CurrentRow.Cells[1].Value.ToString();
+            var selectedPrice = gdvBarberShow.CurrentRow.Cells[2].Value.ToString();    // "coloumn3"
+            var selectedDiscount = gdvBarberShow.CurrentRow.Cells[3].Value.ToString();  //"coloumn4"
+            var selectedDuration = gdvBarberShow.CurrentRow.Cells[4].Value.ToString();
+            this.gdvBarberShow.ClearSelection();
+
+            InsertForm insertForm = new InsertForm(false, this)
+            {
+                PackageIdText = selectedPackageId,   // auto load korar jnno in insert form text filled.
+                PackageNameText = selectedPackageName,
+                PriceText = selectedPrice,
+                DiscountText = selectedDiscount,
+                DurationText = selectedDuration
+            };
+            this.gdvBarberShow.ClearSelection();
+            insertForm.Show();
+            this.Hide();
+        }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
@@ -117,8 +119,8 @@ namespace Saloon_Management
                 }
 
                 var selectedPackageId = gdvBarberShow.CurrentRow.Cells[0].Value.ToString();
-                var selectedPackageName = gdvBarberShow.CurrentRow.Cells[1].Value.ToString();
-                var confirmation = MessageBox.Show($"Are you sure you want to delete the package '{selectedPackageName}'?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var selectedPackageName = gdvBarberShow.CurrentRow.Cells[1].Value.ToString();  // just showing which package we want to delete etai
+                var confirmation = MessageBox.Show($"Are you sure you want to delete the package '{selectedPackageName}'?", "Confirmation", MessageBoxButtons.YesNo);
 
                 if (confirmation == DialogResult.No)
                 {
@@ -137,11 +139,12 @@ namespace Saloon_Management
                 }
 
                 this.ShowPackageList();
+
             }
 
             catch (Exception ex)
             {
-                MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("there is something Wrong When you want to remove : " + ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
 
@@ -155,47 +158,29 @@ namespace Saloon_Management
 
 
 
-
-
-        private void ShowCartList(string query = "SELECT * FROM CartTable")
-        {
-            try
-            {
-                var cartQuery = this.DataAccessBarber.ExecuteQuery(query);
-                this.gdvCartView.AutoGenerateColumns = false;
-                this.gdvCartView.DataSource = cartQuery.Tables[0];
-                this.gdvCartView.ClearSelection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while loading the cart data: " + ex.Message);
-            }
-        }
-
         private void btnAddToCart_Click(object sender, EventArgs e)
         {
             try
             {
+
                 if (gdvBarberShow.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a row to add to the cart.", "Action Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Get the selected row
+
+
                 var selectedRow = gdvBarberShow.CurrentRow;
+                string packageId = selectedRow.Cells[0].Value.ToString(); // Use actual column name or index
+                string packageName = selectedRow.Cells[1].Value.ToString();
+                string price = selectedRow.Cells[2].Value.ToString();
+                string discount = selectedRow.Cells[3].Value.ToString();       //particular cell niteci. and store korteci.Ehsan    eta update kor.
+                string duration = selectedRow.Cells[4].Value.ToString();
 
-                // Retrieve necessary data from the selected row
-                string packageId = selectedRow.Cells["Column1"].Value.ToString(); // Use actual column name or index
-                string packageName = selectedRow.Cells["Column2"].Value.ToString();
-                string price = selectedRow.Cells["Column3"].Value.ToString();
-                string discount = selectedRow.Cells["Column4"].Value.ToString();
-                string duration = selectedRow.Cells["Column5"].Value.ToString();
+                this.gdvBarberShow.ClearSelection();
 
-                // Construct SQL insert query
                 var insertSql = $"INSERT INTO CartTable ([Package Id], [Package Name], Price, Discount, Duration) VALUES ('{packageId}', '{packageName}', {price}, {discount}, '{duration}')";
-
-                // Execute the insert query
                 var rowsAffected = DataAccessBarber.ExecuteDMLQuery(insertSql);
 
                 if (rowsAffected == 1)
@@ -205,13 +190,16 @@ namespace Saloon_Management
                 }
                 else
                 {
-                    MessageBox.Show("An error occurred while adding to cart. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("An error occurred while adding to cart. Please try again.", "Error", MessageBoxButtons.OK);
                 }
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show("This Item Already Exist in Cart  ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            this.gdvBarberShow.ClearSelection();
+
         }
 
 
@@ -221,6 +209,7 @@ namespace Saloon_Management
             {
                 if (gdvCartView.SelectedRows.Count == 0)
                 {
+
                     MessageBox.Show("Please select a row to delete before proceeding.", "Action Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -233,6 +222,8 @@ namespace Saloon_Management
                 {
                     return;
                 }
+
+
                 var deleteQuery = $"DELETE FROM CartTable WHERE [Package Id]='{selectedPackageId}'";
                 var rowsAffected = DataAccessBarber.ExecuteDMLQuery(deleteQuery);
 
@@ -267,22 +258,26 @@ namespace Saloon_Management
 
                 if (RecordFormBarber == null || RecordFormBarber.IsDisposed)
                 {
-                    RecordFormBarber = new RecordForm(LoginFormBarber.Id);
+                    RecordFormBarber = new RecordForm(LoginFormBarber.Id, this); // ei class er reference pathailam
+                    //  this.Hide();
                 }
                 var recordQuery = this.DataAccessBarber.ExecuteQuery("SELECT * FROM RecordBarber1");
                 RecordFormBarber.LoadData(recordQuery.Tables[0]);
                 RecordFormBarber.Show();
+
             }
 
             else if (LoginFormBarber.Id == "S-003")
             {
                 if (RecordFormBarber == null || RecordFormBarber.IsDisposed)
                 {
-                    RecordFormBarber = new RecordForm(this.LoginFormBarber.Id);
+                    RecordFormBarber = new RecordForm(this.LoginFormBarber.Id, this);
+                    //  this.Hide();
                 }
                 var recordQuery2 = this.DataAccessBarber.ExecuteQuery("SELECT * FROM RecordBarber2");
                 RecordFormBarber.LoadData(recordQuery2.Tables[0]);
                 RecordFormBarber.Show();
+                this.gdvBarberShow.ClearSelection();
             }
 
         }
@@ -367,8 +362,25 @@ namespace Saloon_Management
 
         }
 
+        private void btnBackToLogin_Click(object sender, EventArgs e)
+        {
+            LoginForm loginF = new LoginForm();
+            loginF.Show();
+            this.Hide();
+        }
 
+        private void btnInsertBarberForm_Click(object sender, EventArgs e)
+        {
+            InsertForm insForm = new InsertForm(check, this);
+            insForm.Show();
+            check = true;
+            this.Hide();
+        }
 
+        private void BarberForm_Load(object sender, EventArgs e)
+        {
+
+        }
 
     }
-}///
+}

@@ -14,29 +14,21 @@ namespace Saloon_Management
             InitializeComponent();
             this.DbConnection = new DataAccess();
         }
-
-        private void lblUser_Click(object sender, EventArgs e)
-        {
-        }
-
         private bool EmptyLogin()
         {
-            try
+
+            if (string.IsNullOrEmpty(this.txtUser.Text) || string.IsNullOrEmpty(this.txtPass.Text))
             {
-                if (string.IsNullOrEmpty(this.txtUser.Text) || string.IsNullOrEmpty(this.txtPass.Text))
-                {
-                    MessageBox.Show("Incorrect value. Please fill all the text fields.");
-                    return false;
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred during validation: " + ex.Message);
+                MessageBox.Show("Please fill all the text fields.");
                 return false;
             }
-        }
 
+            else
+            {
+                return true;
+            }
+
+        }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
@@ -57,7 +49,7 @@ namespace Saloon_Management
                 {
                     BarberForm barberForm = new BarberForm // ki korci nijeo  jani. na. but kaj korce
 
-                    { LoginFormBarber = this };
+                    { LoginFormBarber = this };  //LoginFormBarber public Property // Barber Propertyr moddhe rakhlm ei class er instanc // reference.
 
                     this.Hide();
                     barberForm.Show();
@@ -76,18 +68,29 @@ namespace Saloon_Management
             }
 
         }
+        private void cbxShowPass_CheckedChanged(object sender, EventArgs e)
+        {
 
-        private void txtUser_TextChanged(object sender, EventArgs e)
+            if (cbxShowPass.Checked == true)
+            {
+                txtPass.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                txtPass.UseSystemPasswordChar = true;
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtUser.Clear();
+            txtPass.Clear();
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
         {
 
         }
-
-        private void lgnPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
     }
 
 }

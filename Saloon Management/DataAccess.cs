@@ -5,6 +5,11 @@ namespace Saloon_Management
     public class DataAccess
     {
         private SqlConnection sqlconnect;
+        public DataAccess()
+        {
+            this.Sqlconnect = new SqlConnection("Data Source=DESKTOP-N1RD257;Initial Catalog=\"Saloon Management\";User ID=sa;Password=parvej;Encrypt=False");
+            Sqlconnect.Open();
+        }
 
         public SqlConnection Sqlconnect
         {
@@ -33,11 +38,7 @@ namespace Saloon_Management
             set { this.dataset = value; }
         }
 
-        public DataAccess()
-        {
-            this.Sqlconnect = new SqlConnection("Data Source=DESKTOP-N1RD257;Initial Catalog=\"Saloon Management\";User ID=sa;Password=parvej;Encrypt=False");
-            Sqlconnect.Open();
-        }
+
 
         private void QueryText(string sqlQury)
         {
@@ -45,7 +46,7 @@ namespace Saloon_Management
         }
         public DataSet ExecuteQuery(string sql)
         {
-            this.Sqlcmd = new SqlCommand(sql, this.Sqlconnect);//this.QueryText(sql);
+            this.Sqlcmd = new SqlCommand(sql, this.Sqlconnect);
             this.Sqladp = new SqlDataAdapter(this.Sqlcmd);
             this.Dataset = new DataSet();
             this.Sqladp.Fill(this.dataset);
@@ -54,7 +55,7 @@ namespace Saloon_Management
 
         public DataTable ExecuteQueryTable(string sql)
         {
-            this.Sqlcmd = new SqlCommand(sql, this.Sqlconnect);//this.QueryText(sql);
+            this.Sqlcmd = new SqlCommand(sql, this.Sqlconnect);
             this.Sqladp = new SqlDataAdapter(this.Sqlcmd);
             this.dataset = new DataSet();
             this.Sqladp.Fill(this.dataset);

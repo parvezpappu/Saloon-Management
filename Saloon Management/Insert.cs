@@ -16,12 +16,37 @@ namespace Saloon_Management
             this.DataAccessInsert = new DataAccess();
             this.IsInsertUpdate = isInsert;
             this.callerForm = caller;
-            txtPidInsert.ReadOnly = !isInsert;
+            //  txtPidInsert.ReadOnly = !isInsert;
+
+        }
+        public string PackageIdText
+        {
+            get { return this.txtPidInsert.Text; }
+            set { this.txtPidInsert.Text = value; }
         }
 
-        private void lblPIdInsert_Click(object sender, EventArgs e)
+        public string PackageNameText
         {
+            get { return this.txtNameInsert.Text; }
+            set { this.txtNameInsert.Text = value; }
+        }
 
+        public string PriceText
+        {
+            get { return this.txtPriceInsert.Text; }
+            set { this.txtPriceInsert.Text = value; }
+        }
+
+        public string DiscountText
+        {
+            get { return this.txtDiscountInsert.Text; }
+            set { this.txtDiscountInsert.Text = value; }
+        }
+
+        public string DurationText
+        {
+            get { return this.txtDurationInsert.Text; }
+            set { this.txtDurationInsert.Text = value; }
         }
 
         private bool IsValidInsert()
@@ -41,6 +66,7 @@ namespace Saloon_Management
 
         public void UpdateMethod()
         {
+
             var updateSql = @"UPDATE PackageTable
             SET [Package Name] = '" + this.txtNameInsert.Text + @"',
             Price = " + this.txtPriceInsert.Text + @",
@@ -84,7 +110,7 @@ namespace Saloon_Management
                 if (!IsValidInsert())
                 {
                     MessageBox.Show("Please fill in all fields correctly.");
-                    return; // Stop further execution if validation fails
+                    return;
                 }
 
                 var insertQuery = "SELECT * FROM PackageTable WHERE [Package Id]='" + txtPidInsert.Text + "'";
@@ -95,24 +121,22 @@ namespace Saloon_Management
                     if (IsInsertUpdate == true)
                     {
                         MessageBox.Show("You can't insert this value, it's already in the list.");
-                        return; // Stop further execution if the package already exists
+                        return;
                     }
                     else
                     {
-                        UpdateMethod(); // Update the package if it's an update operation
+                        UpdateMethod();
                     }
                 }
-                else // New package insertion
+                else        //  when Package not exists
                 {
-                    InsertMethod(); // Insert the new package
+                    InsertMethod();
                 }
-
-                // If the insert/update operation was successful, navigate back to the caller form
                 NavigateBackToCaller();
             }
             catch (Exception exc)
             {
-                MessageBox.Show("An error has occurred: " + exc.Message);
+                MessageBox.Show("Incorrect Format ");
             }
         }
 
@@ -120,7 +144,7 @@ namespace Saloon_Management
         {
             if (callerForm is AdminForm)
             {
-                AdminForm adminForm = (AdminForm)callerForm;
+                AdminForm adminForm = (AdminForm)callerForm; // teype casting.  shob property access er jnno
                 adminForm.LoadPackageTable(); // Refresh data in AdminForm
                 adminForm.Show(); // Show AdminForm
             }
@@ -133,38 +157,6 @@ namespace Saloon_Management
 
             this.Close(); // Close InsertForm after navigation
         }
-
-        public string PackageIdText
-        {
-            get { return txtPidInsert.Text; }
-            set { txtPidInsert.Text = value; }
-        }
-
-        public string PackageNameText
-        {
-            get { return txtNameInsert.Text; }
-            set { txtNameInsert.Text = value; }
-        }
-
-        public string PriceText
-        {
-            get { return txtPriceInsert.Text; }
-            set { txtPriceInsert.Text = value; }
-        }
-
-        public string DiscountText
-        {
-            get { return txtDiscountInsert.Text; }
-            set { txtDiscountInsert.Text = value; }
-        }
-
-        public string DurationText
-        {
-            get { return txtDurationInsert.Text; }
-            set { txtDurationInsert.Text = value; }
-        }
-
-
 
 
         private void btnEraseInsert_Click(object sender, EventArgs e)
@@ -183,15 +175,11 @@ namespace Saloon_Management
 
         }
 
-        private void InsertForm_Load(object sender, EventArgs e)
-        {
-            SetReadOnlyMode();
-        }
 
-        private void SetReadOnlyMode()
-        {
-            txtPidInsert.ReadOnly = !IsInsertUpdate; // Make ReadOnly if it is update mode
-        }
 
+        private void InsertForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }/////////insert
