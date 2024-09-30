@@ -47,7 +47,7 @@ namespace Saloon_Management
 
                 if (role == "Barber")
                 {
-                    BarberForm barberForm = new BarberForm // ki korci nijeo  jani. na. but kaj korce
+                    BarberForm barberForm = new BarberForm //  na. but kaj korce
 
                     { LoginFormBarber = this };  //LoginFormBarber public Property // Barber Propertyr moddhe rakhlm ei class er instanc // reference.
 

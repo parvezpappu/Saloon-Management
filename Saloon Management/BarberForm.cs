@@ -5,7 +5,6 @@ namespace Saloon_Management
 {
     public partial class BarberForm : Form
     {
-        // Instance of DataAccess class
         public DataAccess DataAccessBarber { get; set; }
         public InsertForm InsertFormBarber { get; set; }
         public RecordForm RecordFormBarber { get; set; }
@@ -382,5 +381,9 @@ namespace Saloon_Management
 
         }
 
+        private void BarberForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
